@@ -40,3 +40,6 @@
         </tbody>
     </table>
 @endsection
+
+<!--Halaman ini juga sama yess intinya yg muncul datanya itu ada campur tangan doi gua hehehe
+    <-- Maaf bucen yaa

@@ -1,6 +1,11 @@
 @extends('layouts.user')
 
 @section('content')
+
+<!-- Halaman ini sumpah sebenernya udah muncul tapi datanya sama aja dan gua pgn narik dari
+    halaman admin rancu mulu jadi gua apus apusin dan netapin yg ini doang"
+
+
 <section class="container my-5">
     <h2 class="text-center mb-4">Laporan Pendataan Sampah Mitra CSR Indocement</h2>
 

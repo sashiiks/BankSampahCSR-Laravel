@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <!-- Chart Section -->
     <div class="row">
@@ -75,3 +75,5 @@
     });
 </script>
 @endsection
+
+<!-- nah kalo ini jadi patokan aja buat munculin diagram nyaa

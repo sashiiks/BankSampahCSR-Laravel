@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MitraBankSampah;
-use App\Models\TransaksiSampah; 
+use App\Models\TransaksiSampah;
 
 class TransaksiController extends Controller
 {
-    /**
+
+    /** kode ini tu harusnya saling kesambung sama  Mitra controller cuma gua heran pas dibuka
+     * view nya yang itu ga jalan bjirr. di admin
+     *
+     *
+     *
+     *
      * Menampilkan daftar transaksi.
      */
     public function index()
@@ -21,6 +27,9 @@ class TransaksiController extends Controller
 
     /**
      * Menampilkan form untuk transaksi baru.
+     *
+     *
+     * sama kalo ini harusnya ada view yang tampil namanya transaksi form tapi ga nampil juga jir.
      */
     public function create()
     {
@@ -37,6 +46,7 @@ class TransaksiController extends Controller
     public function store(Request $request)
     {
         // Validasi Input
+        // disini juga jir sumpah gua bingung ga bisa nampilin transaksi gitu di admin.
         $validatedData = $request->validate([
             'nama_mitra' => 'required|exists:mitra_bank_sampah,id', // ID mitra harus valid
             'Bulan' => 'required|string|max:50',

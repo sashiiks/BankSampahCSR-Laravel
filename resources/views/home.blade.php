@@ -102,3 +102,6 @@
 @endsection
 
 <script src="{{ asset('js/achievement-counter.js') }}"></script>
+
+<!-- nah kalo ini sabi ga checkin hehehe  gambarnya ga muncul buat di logo sama halaman utama
+    padahal ini udah di sesuaikan
