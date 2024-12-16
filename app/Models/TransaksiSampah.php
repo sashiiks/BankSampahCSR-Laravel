@@ -9,16 +9,23 @@ class TransaksiSampah extends Model
 {
     use HasFactory;
 
-    protected $table = 'dataall';
+    protected $table = 'bs_new';
+
+    public $timestamps = false; // Nonaktifkan timestamps
+
     protected $fillable = [
         'nama_desa',
-        'Nama bank sampah',
-        'Bulan',
-        'Tahun',
-        'Pembelian (kg)',
-        'Jumlah Pembelian (Rp)',
-        'Penjualan (kg)',
-        'Jumlah Penjualan (Rp)',
-        'Nama Pengepul'
+        'bulan',
+        'tahun',
+        'nama_bank_sampah',
+        'rt',
+        'rw',
+        'jumlah_nasabah',
+        'nasabah_aktif',
+        'pembelian_kg',
+        'pembelian_rp',
+        'penjualan_kg',
+        'penjualan_rp',
+        'nama_pengepul'
     ];
 }

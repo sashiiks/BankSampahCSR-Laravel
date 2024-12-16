@@ -11,11 +11,12 @@ class MitraBankSampah extends Model
 
     protected $table = 'dataall';
     protected $fillable = [
+        'No.',
         'nama_desa',
-        'Nama bank sampah',
-        'RT',
-        'RW',
-        'Jumlah Nasabah',
-        'Nasabah aktif',
+        'nama_bank_sampah',
+        'rt',
+        'rw',
+        'jumlah_nasabah',
+        'nasabah_aktif', 
     ];
 }

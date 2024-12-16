@@ -3,74 +3,134 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\MitraBankSampah;
 use App\Models\TransaksiSampah;
 
 class TransaksiController extends Controller
 {
-
-    /** kode ini tu harusnya saling kesambung sama  Mitra controller cuma gua heran pas dibuka
-     * view nya yang itu ga jalan bjirr. di admin
-     *
-     *
-     *
-     *
+    /**
      * Menampilkan daftar transaksi.
      */
     public function index()
     {
-        $mitra = MitraBankSampah::all(); // Ambil semua data mitra
-        $transaksi = TransaksiSampah::all(); // Ambil semua data transaksi
+        // Ambil semua data dari tabel 'dataall'
+        $transaksi = TransaksiSampah::orderBy('id', 'desc')->paginate(20);
 
-        return view('transaksi.index', compact('mitra', 'transaksi'));
+        if (request()->ajax()) {
+            return view('transaksi.index', compact('transaksi'));
+        }
+
+        // Tampilkan view dengan data transaksi
+        return view('transaksi.index', compact('transaksi'));
     }
 
     /**
-     * Menampilkan form untuk transaksi baru.
-     *
-     *
-     * sama kalo ini harusnya ada view yang tampil namanya transaksi form tapi ga nampil juga jir.
+     * Menampilkan form tambah transaksi.
      */
     public function create()
     {
-        // Ambil daftar nama bank sampah dari tabel mitra
-        $mitra = MitraBankSampah::select('id', 'nama_bank_sampah')->distinct()->get();
+        return view('transaksi.form');
+    }
 
-        // Kirim data mitra ke view form
-        return view('mitra.create', compact('mitra'));
+    public function store(Request $request)
+    {
+    // Validasi input
+    $validatedData = $request->validate([
+        'nama_desa' => 'required|string|max:255',
+        'bulan' => 'required|string|max:50',
+        'tahun' => 'required|numeric|min:0',
+        'nama_bank_sampah' => 'required|string|max:255',
+        'rt' => 'required|string|max:50',
+        'rw' => 'required|numeric',
+        'jumlah_nasabah' => 'required|numeric|min:0',
+        'nasabah_aktif' => 'required|numeric|min:0',
+        'pembelian_kg' => 'required|numeric|min:0',
+        'pembelian_rp' => 'required|numeric|min:0',
+        'penjualan_kg' => 'required|numeric|min:0',
+        'penjualan_rp' => 'required|numeric|min:0',
+        'nama_pengepul' => 'required|string|max:255',
+    ]);
+
+    try {
+        // Simpan data ke database
+        TransaksiSampah::create($validatedData);
+
+        // Reset form dengan flash message sukses
+        return back()->with('success', 'Transaksi berhasil ditambahkan!');
+    } catch (\Exception $e) {
+        // Kembali ke form dengan pesan error jika terjadi kegagalan
+        return back()->with('error', 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage());
+    }
     }
 
     /**
-     * Menyimpan transaksi baru ke dalam database.
+     * Menampilkan form edit transaksi berdasarkan No.
      */
-    public function store(Request $request)
+    public function edit($id)
     {
-        // Validasi Input
-        // disini juga jir sumpah gua bingung ga bisa nampilin transaksi gitu di admin.
-        $validatedData = $request->validate([
-            'nama_mitra' => 'required|exists:mitra_bank_sampah,id', // ID mitra harus valid
-            'Bulan' => 'required|string|max:50',
-            'Tahun' => 'required|numeric',
-            'Pembelian (kg)' => 'required|numeric|min:0',
-            'Penjualan (kg)' => 'required|numeric|min:0',
-            'Jumlah Pembelian (Rp)' => 'required|numeric|min:0',
-            'Jumlah Penjualan (Rp)' => 'required|numeric|min:0',
-            'Nama Pengepul' => 'required|string|max:255',
-        ]);
+        // Ambil data transaksi dari tabel 'dataall' berdasarkan No.
+        $transaksi = TransaksiSampah::where('id', $id)->firstOrFail();
 
-        // Simpan data transaksi ke database
-        TransaksiSampah::create([
-            'mitra_id' => $validatedData['nama_mitra'], // ID mitra sebagai foreign key
-            'bulan' => $validatedData['Bulan'],
-            'tahun' => $validatedData['Tahun'],
-            'pembelian_kg' => $validatedData['Pembelian (kg)'],
-            'penjualan_kg' => $validatedData['Penjualan (kg)'],
-            'jumlah_pembelian_rp' => $validatedData['Jumlah Pembelian (Rp)'],
-            'jumlah_penjualan_rp' => $validatedData['Jumlah Penjualan (Rp)'],
-            'nama_pengepul' => $validatedData['Nama Pengepul'],
-        ]);
+        // Tampilkan view form edit
+        return view('transaksi.edit', compact('transaksi'));
+    }
 
-        // Redirect dengan pesan sukses
-        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil disimpan!');
+    /**
+     * Memperbarui data transaksi di tabel 'dataall' berdasarkan No.
+     */
+    public function update(Request $request, $id)
+    {
+    // Validasi input
+    $validatedData = $request->validate([
+        'nama_desa' => 'required|string|max:255',
+        'bulan' => 'required|string|max:50',
+        'tahun' => 'required|numeric|min:0',
+        'nama_bank_sampah' => 'required|string|max:255',
+        'rt' => 'required|string|max:50',
+        'rw' => 'required|numeric',
+        'jumlah_nasabah' => 'required|numeric|min:0',
+        'nasabah_aktif' => 'required|numeric|min:0',
+        'pembelian_kg' => 'required|numeric|min:0',
+        'pembelian_rp' => 'required|numeric|min:0',
+        'penjualan_kg' => 'required|numeric|min:0',
+        'penjualan_rp' => 'required|numeric|min:0',
+        'nama_pengepul' => 'required|string|max:255',
+    ], [
+        'required' => ':attribute wajib diisi.',
+        'numeric' => ':attribute harus berupa angka.',
+        'string' => ':attribute harus berupa teks.',
+        'max' => ':attribute maksimal :max karakter.',
+        'min' => ':attribute minimal :min.'
+    ]);
+
+    // Validasi tambahan (kondisional)
+    if ($request->nasabah_aktif > $request->jumlah_nasabah) {
+        return redirect()->back()->withErrors(['nasabah_aktif' => 'Jumlah nasabah aktif tidak boleh lebih besar dari jumlah keseluruhan nasabah.']);
+    }
+
+    try {
+        // Cari data transaksi berdasarkan ID
+        $transaksi = TransaksiSampah::findOrFail($id);
+
+        // Update data transaksi
+        $transaksi->update($validatedData);
+
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil diperbarui!');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui transaksi: ' . $e->getMessage());
+    }
+    }
+
+
+    /**
+     * Menghapus data transaksi dari tabel 'dataall' berdasarkan No.
+     */
+    public function destroy($id)
+    {
+        // Cari data transaksi berdasarkan No. dan hapus
+        $transaksi = TransaksiSampah::where('id', $id)->firstOrFail();
+        $transaksi->delete();
+
+        // Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus!');
     }
 }

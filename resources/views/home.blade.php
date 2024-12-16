@@ -5,15 +5,14 @@
     <div class="row gy-4">
         <section id="hero" class="hero section">
             <div class="col-lg-6 order-lg-last hero-img" data-aos="zoom-out" data-aos-delay="100">
-                <img src="{{ asset('images/galleryBS/hero.jpg') }}" class="img-fluid animated" alt="">
+                <img src="{{ asset('images/galleryBS/hero.png') }}" class="img-fluid animated" alt="">
             </div>
             <div class="col-lg-6  d-flex flex-column justify-content-center" data-aos="fade-in">
                 <h2>Sistem Manajemen Bank Sampah</h2>
                 <h3>Mitra CSR PT Indocement Tunggal Prakarsa Tbk.</h3>
                 <p>Untuk Pelaporan Bulanan Bank Sampah Silahkan Klik dibawah ini</p>
                 <div class="d-flex mt-4 justify-content ">
-                    <a href="{{ route('form_mitra') }}" class="download-btn"></i> <span>Mitra</span></a>
-                    <a href="{{ route('form_nonmitra') }}" class="download-btn"></i> <span>Non Mitra</span></a>
+                    <a href="{{ route('transaksi.form') }}" class="download-btn"></i> <span>Pengisian Form</span></a>
                 </div>
             </div>
     </div>
@@ -77,20 +76,20 @@
             <h2 class="section-title">Pencapaian Bank Sampah Mitra CSR Indocement</h2>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                    <h3 class="achievement-number" id="counter1">105</h3>
-                    <p class="achievement-text">Satisfied Customers</p>
+                    <h3 class="achievement-number" id="counter1">{{ $totalBankSampah }}</h3>
+                    <p class="achievement-text">Jumlah Bank Sampah Mitra</p>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                    <h3 class="achievement-number" id="counter2">1005</h3>
-                    <p class="achievement-text">Project Completed</p>
+                    <h3 class="achievement-number" id="counter2">{{ number_format($totalPengelolaanSampah, 0, ',', '.') }} kg</h3>
+                    <p class="achievement-text">Total Pengelolaan Sampah</p>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                    <h3 class="achievement-number" id="counter3">1000</h3>
-                    <p class="achievement-text">Employees</p>
+                    <h3 class="achievement-number" id="counter3">{{ number_format($totalNasabah, 0, ',', '.') }}</h3>
+                    <p class="achievement-text">Total Keseluruhan Nasabah</p>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                    <h3 class="achievement-number" id="counter4">85</h3>
-                    <p class="achievement-text">Awards Winning</p>
+                    <h3 class="achievement-number" id="counter4">{{ $totalDaerahMitra }}</h3>
+                    <p class="achievement-text">Total Desa Mitra</p>
                 </div>
             </div>
             <a href="{{ route('report') }}" class="btn btn-outline-dark mt-4">Selengkapnya</a>
@@ -99,9 +98,51 @@
     <!-- /Achievement Section -->
 
     <!-- Map Section -->
+    <section id="map-section" class="map-section mt-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Peta Lokasi Bank Sampah</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="map" style="height: 500px;"></div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="container">
+                    <h4>Keterangan Lokasi Bank Sampah Mitra CSR Indocement</h4>
+                    <div class="keterangan-grid">
+                        <div>
+                            <h5>Kec. Citeureup:</h5>
+                            <ul>
+                                <li>Citeureup</li>
+                                <li>Puspa Negara</li>
+                                <li>Tarikolot</li>
+                                <li>Gunung Sari</li>
+                                <li>Pasir Mukti</li>
+                                <li>Tajur</li>
+                                <li>Hambalang</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Kec. Kelapa Nunggal:</h5>
+                            <ul>
+                                <li>Lewih Karet</li>
+                                <li>Lulut</li>
+                                <li>Bantarjati</li>
+                                <li>Nambo</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5>Kec. Gunung Putri:</h5>
+                            <ul>
+                                <li>Desa Gunung Putri</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+    </section>
+    <!-- /Map Section -->
 @endsection
 
 <script src="{{ asset('js/achievement-counter.js') }}"></script>
-
-<!-- nah kalo ini sabi ga checkin hehehe  gambarnya ga muncul buat di logo sama halaman utama
-    padahal ini udah di sesuaikan
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzEWOfDIuMzipvo4n70-KSR5vilHhl0QQ&callback=initMap" async defer></script>
+<script src="{{ asset('js/map.js') }}"></script>

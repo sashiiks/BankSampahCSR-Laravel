@@ -32,5 +32,4 @@
     </table>
 @endsection
 
-<!--Halaman ini literally CSS aja cuma bisa jadiin panduan sama lu soalnya datanya udah tampil semua>
-    <!-- Kenapa bisa muncul? karena di bantuin pacar gua dia anak data tapi ga bisa backend hehehe
+
